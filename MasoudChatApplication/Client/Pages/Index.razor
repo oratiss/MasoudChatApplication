@@ -1,4 +1,5 @@
 ﻿@using MasoudChatApplication.Shared 
+@using Markdig
 @page "/"
 @inject NavigationManager navigationManager
 
@@ -13,6 +14,7 @@
 <div class="content px-4">
 
     <h1>Masoud Chat Application</h1>
+    <p>you can use html elements in your message body.</p>
 
     @if (!chatting)
     {
@@ -41,10 +43,10 @@
 
             @foreach (var item in messages)
             {
-                <div class="@item.CSS">
-                    <div class="user">@item.Username</div>
-                    <div class="msg">@item.Body</div>
-                </div>
+            <div class="@item.CSS">
+                <div class="user">@item.Username</div>
+                <div class="animated lightSpeedIn">@((MarkupString)Markdown.ToHtml(@item.Body))</div>
+            </div>
             }
             <hr />
             <textarea class="input-lg" placeholder="enter your comment" @bind="@newMessage"></textarea>
