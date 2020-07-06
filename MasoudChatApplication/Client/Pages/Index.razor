@@ -28,7 +28,7 @@
         </p>
 
         <input type="text" maxlength="32" @bind="@username" />
-        <button type="button" @onclick="@Chat"><span class="oi oi-chat" aria-hidden="true"></span> Chat!</button>
+        <button type="button" class="btn btn-success" @onclick="@Chat"><span class="oi oi-chat" aria-hidden="true"></span> Chat!</button>
 
         @if (message != null)
         {
@@ -43,14 +43,15 @@
 
             @foreach (var item in messages)
             {
-            <div class="@item.CSS">
-                <div class="user">@item.Username</div>
+            <div class="chat-cadr @item.CSS">
+                <div class="user"><strong>@item.Username</strong></div>
+                <div class="h6">@DateTime.Now</div>
                 <div class="animated lightSpeedIn">@((MarkupString)Markdown.ToHtml(@item.Body))</div>
             </div>
             }
             <hr />
             <textarea class="input-lg" placeholder="enter your comment" @bind="@newMessage"></textarea>
-            <button class="btn btn-default" @onclick="@SendAsync">Send</button>
+            <button class="btn btn-primary" @onclick="@SendAsync">Send</button>
         </div>
     }
 </div>
@@ -173,7 +174,7 @@
         {
             get
             {
-                return Mine ? "sent" : "received";
+                return Mine ? "sent col-6" : "received col-6 offset-6 ";
             }
         }
     }

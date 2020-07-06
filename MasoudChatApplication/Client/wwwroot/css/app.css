@@ -180,4 +180,16 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .sent{
+        background-color:lightyellow !important;
+    }
+
+
+    .received{
+        text-align:right !important;
+        background-color: aquamarine;
+    }
+
+ 
 }
