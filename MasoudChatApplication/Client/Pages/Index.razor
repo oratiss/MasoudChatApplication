@@ -1,4 +1,6 @@
 ﻿@using MasoudChatApplication.Shared 
+@using MasoudChatApplication.Client.Services 
+@using MasoudChatApplication.Client.Domains
 @using Markdig
 @page "/"
 @inject NavigationManager navigationManager
@@ -39,20 +41,25 @@
 
     @if (chatting)
     {
-        <div id="scrollbox">
+<div id="scrollbox">
 
-            @foreach (var item in messages)
-            {
-            <div class="chat-cadr @item.CSS">
-                <div class="user"><strong>@item.Username</strong></div>
-                <div class="h6">@DateTime.Now</div>
-                <div class="animated lightSpeedIn">@((MarkupString)Markdown.ToHtml(@item.Body))</div>
-            </div>
-            }
-            <hr />
-            <textarea class="input-lg" placeholder="enter your comment" @bind="@newMessage"></textarea>
-            <button class="btn btn-primary" @onclick="@SendAsync">Send</button>
-        </div>
+    @foreach (var item in messages)
+    {
+<div class="chat-cadr @item.CSS">
+    <div class="user"><strong>@item.Username</strong></div>
+    <div class="h6">@DateTime.Now</div>
+    <div class="animated lightSpeedIn">@((MarkupString)Markdown.ToHtml(@item.Body))</div>
+</div>}
+    <hr />
+    <EditForm Model="@ChatService.ChatForm" Context="formContext" OnValidSubmit="@Chat">
+        <EmojiInput IsSubmitDisabled="@(!chatting)" Placeholder="Message.." ShowSubmit="true" CustomSymbols="@CustomSymbols"
+                    @bind-Message="ChatService.ChatForm.MessageInput" AddFiles="AddFiles" FileUploadRoute="@(ICommonRoutes.FILE_UPLOAD)" />
+        <ValidationMessage For="@(() => newMessage)" />
+        <textarea class="input-lg" placeholder="enter your comment" @bind="@newMessage"></textarea>
+        <button class="btn btn-primary" @onclick="@SendAsync">Send</button>
+    </EditForm>
+
+</div>
     }
 </div>
 
@@ -73,6 +80,11 @@
 
     // list of messages in chat
     List<Message> messages = new List<Message>();
+
+    private List<string> CustomSymbols = new List<string>()
+    {
+        "⺀", "⽥", "⽨", "⽣", "㣕"
+    };
 
     /// <summary>
     /// Start chat client
